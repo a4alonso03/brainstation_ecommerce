@@ -1,7 +1,7 @@
 package brainstation.booksapi.controller;
 
 import brainstation.booksapi.core.book.service.BookService;
-import brainstation.booksapi.exceptions.BookExceptionInterceptor;
+import brainstation.booksapi.exceptions.RestExceptionInterceptor;
 import brainstation.booksapi.model.Book;
 import brainstation.booksapi.util.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-
 public class BookController {
 
     private BookService bookService;
@@ -47,7 +46,7 @@ public class BookController {
     }
 
     @PostMapping("/book/")
-    public ResponseEntity<CustomResponse> createBook(@Validated(BookExceptionInterceptor.class) @RequestBody Book book){
+    public ResponseEntity<CustomResponse> createBook(@Validated(RestExceptionInterceptor.class) @RequestBody Book book){
         Book createdBook = this.bookService.createBook(book.getName(), book.getAuthor());
 
         if(createdBook == null){
@@ -60,7 +59,7 @@ public class BookController {
 
     @PutMapping("/book/{id}")
     public ResponseEntity<CustomResponse> updateBook(@PathVariable("id") Integer id,
-                                                    @Validated(BookExceptionInterceptor.class) @RequestBody Book book){
+                                                    @Validated(RestExceptionInterceptor.class) @RequestBody Book book){
 
         Book updatedBook = this.bookService.updateBook(id, book.getName(), book.getAuthor());
 

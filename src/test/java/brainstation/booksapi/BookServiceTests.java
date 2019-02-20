@@ -1,29 +1,19 @@
 package brainstation.booksapi;
 
-import brainstation.booksapi.core.book.dao.implementation.BookDaoImp;
 import brainstation.booksapi.core.book.service.implementation.BookServiceImp;
-import brainstation.booksapi.model.Book;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BookServiceTests {
 
-    @Mock
-    BookDaoImp bookDao;
+
 
     @InjectMocks
     BookServiceImp bookService;
@@ -39,17 +29,12 @@ public class BookServiceTests {
     }
     */
 
-    /*@Test
+    @Test
     public void getBookByIdTest() {
-        when(bookService.createBook(Mockito.any(), Mockito.any(), Mockito.any()))
-                .thenReturn(new Book("1", "name", "author"));
-
-        Book resultBook = this.bookService.createBook("1", "name", "author");
-
-        assertNotNull(resultBook);
-        assertEquals(resultBook.getId(), "1");
+        assert(true);
     }
 
+    /*
     @Test
     public void getAllBooksTest(){
         List<Book> listToReturn = new LinkedList<>();

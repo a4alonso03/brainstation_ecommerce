@@ -1,4 +1,4 @@
 package brainstation.booksapi.exceptions;
 
-public interface BookExceptionInterceptor {
+public interface RestExceptionInterceptor {
 }

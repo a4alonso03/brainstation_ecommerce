@@ -9,11 +9,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>brainstation</groupId>
-    <artifactId>booksapi</artifactId>
+    <artifactId>store_backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>booksapi</name>
-    <description>Brainstation Excercise Books Api</description>
+    <name>store_backend</name>
+    <description>e-commerce Store Backend</description>
 
     <properties>
         <java.version>1.8</java.version>

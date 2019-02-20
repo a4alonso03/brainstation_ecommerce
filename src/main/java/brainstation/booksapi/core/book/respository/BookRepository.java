@@ -1,4 +1,4 @@
-package brainstation.booksapi.core.book.dao;
+package brainstation.booksapi.core.book.respository;
 
 import brainstation.booksapi.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface BookDao extends JpaRepository<Book, Integer> {
+public interface BookRepository extends JpaRepository<Book, Integer> {
 
     @Override
     Optional<Book> findById(Integer integer);
@@ -15,8 +15,6 @@ public interface BookDao extends JpaRepository<Book, Integer> {
     @Override
     Book save(Book book);
 
-    @Override
-    void deleteById(Integer integer);
 
     @Modifying
     @Query("update Book book set book.name = :bookName, book.author = :bookAuthor where book.id = :bookId")

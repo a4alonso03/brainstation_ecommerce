@@ -26,6 +26,7 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public void signUp(@RequestBody ApplicationUser user) {
+        //TODO: Check for duplicated users
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.createUser(user);
     }

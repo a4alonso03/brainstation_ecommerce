@@ -1,6 +1,6 @@
 package brainstation.booksapi.core.book.service.implementation;
 
-import brainstation.booksapi.core.book.dao.BookDao;
+import brainstation.booksapi.core.book.respository.BookRepository;
 import brainstation.booksapi.core.book.service.BookService;
 import brainstation.booksapi.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,38 +13,38 @@ import java.util.Optional;
 @Service
 public class BookServiceImp implements BookService {
 
-    private BookDao bookDao;
+    private BookRepository bookRepository;
 
     @Autowired
-    public BookServiceImp(@NotNull BookDao bookDao){
-        this.bookDao = bookDao;
+    public BookServiceImp(@NotNull BookRepository bookRepository){
+        this.bookRepository = bookRepository;
     }
 
     @Override
     public Book getBookById(Integer id) {
-        Optional<Book> bookOptional = this.bookDao.findById(id);
+        Optional<Book> bookOptional = this.bookRepository.findById(id);
         return bookOptional.orElse(null);
     }
 
     @Override
     public List<Book> getAllBooks() {
-        return this.bookDao.findAll();
+        return this.bookRepository.findAll();
     }
 
     @Override
     public Book createBook(String name, String author) {
-        return this.bookDao.save(new Book(name, author));
+        return this.bookRepository.save(new Book(name, author));
     }
 
     @Override
     public Boolean deleteBook(Integer id) {
-        this.bookDao.deleteById(id);
+        this.bookRepository.deleteById(id);
         return true;
     }
 
     @Override
     public Book updateBook(Integer id, String name, String author) {
-        int rowsUpdated = this.bookDao.updateBookById(id, name, author);
+        int rowsUpdated = this.bookRepository.updateBookById(id, name, author);
         if(rowsUpdated > 0){
             return this.getBookById(id);
         }
