@@ -54,7 +54,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withSubject(((User) authResult.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
-            response.addHeader(HEADER_STRING,
-                               TOKEN_PREFIX + token);
+            response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+            response.addHeader(USERNAME_HEADER, ((User) authResult.getPrincipal()).getUsername());
+            response.addHeader("Access-Control-Expose-Headers", HEADER_STRING);
+            response.addHeader("Access-Control-Expose-Headers", USERNAME_HEADER);
+
+
     }
 }
