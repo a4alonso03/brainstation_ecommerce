@@ -32,6 +32,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getAllProducts() {
         List<ProductDTO> productDTOList = this.productRepository.findAll();
+
         if (productDTOList != null) {
             return this.productDTOListToProductList(productDTOList);
         }

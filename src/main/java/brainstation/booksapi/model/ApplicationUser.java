@@ -20,6 +20,12 @@ public class ApplicationUser {
     private String username;
     @NotNull(groups = {CustomRestExceptionHandler.class}, message = "A password is required when creating an user")
     private String password;
+    @NotNull(groups = {CustomRestExceptionHandler.class}, message = "A Name is required when creating an user")
+    private String name;
+
+    private String lastName;
+
+
 
     public long getId() {
         return id;
@@ -43,6 +49,22 @@ public class ApplicationUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Override

@@ -2,12 +2,12 @@ package brainstation.booksapi.controller;
 
 import brainstation.booksapi.core.applicationUser.service.ApplicationUserService;
 import brainstation.booksapi.model.ApplicationUser;
+import brainstation.booksapi.util.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -25,9 +25,27 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public void signUp(@RequestBody ApplicationUser user) {
-        //TODO: Check for duplicated users
+    public ResponseEntity<CustomResponse> signUp(@RequestBody ApplicationUser user) {
+        ApplicationUser retrievedUser = this.userService.getUserByUsername(user.getUsername());
+        if(retrievedUser != null){
+            new ResponseEntity<>(new CustomResponse("User already exists", null), HttpStatus.CONFLICT);
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.createUser(user);
+        ApplicationUser createdUser =  userService.createUser(user);
+        createdUser.setPassword(null);
+        if(createdUser == null){
+            return new ResponseEntity<>(new CustomResponse("User creation error", null), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(new CustomResponse("ok", createdUser), HttpStatus.OK);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<CustomResponse> getUserByUsername(@PathVariable("username")String username){
+        ApplicationUser user = userService.getUserByUsername(username);
+        if(user == null){
+            return new ResponseEntity<>(new CustomResponse("User not found", null), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new CustomResponse("ok", user), HttpStatus.OK);
+
     }
 }

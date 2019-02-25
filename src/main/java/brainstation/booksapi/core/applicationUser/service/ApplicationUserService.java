@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface ApplicationUserService extends UserDetailsService {
 
-    void createUser(ApplicationUser user);
+    ApplicationUser createUser(ApplicationUser user);
+
+    ApplicationUser getUserByUsername(String username);
 
 }

@@ -21,8 +21,9 @@ public class ProductDTO {
     private String image;
 
     @ManyToMany
-    @JoinTable(name = "product_category", joinColumns = {@JoinColumn(referencedColumnName = "id")},
-                                    inverseJoinColumns = {@JoinColumn (referencedColumnName = "id")})
+    @JoinTable(name = "product_category",
+            joinColumns = {@JoinColumn(name = "product_id")},
+            inverseJoinColumns = {@JoinColumn (name = "category_id")})
     private Set<CategoryDTO> categories = new HashSet<>();
 
     public ProductDTO (){}

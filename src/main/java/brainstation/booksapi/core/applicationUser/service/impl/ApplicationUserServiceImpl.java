@@ -26,8 +26,8 @@ public class ApplicationUserServiceImpl implements ApplicationUserService{
     }
 
     @Override
-    public void createUser(ApplicationUser user) {
-        this.userRepository.save(user);
+    public ApplicationUser createUser(ApplicationUser user) {
+        return this.userRepository.save(user);
     }
 
     @Override
@@ -37,5 +37,11 @@ public class ApplicationUserServiceImpl implements ApplicationUserService{
             throw new UsernameNotFoundException(username);
         }
         return new User(user.getUsername(), user.getPassword(), emptyList());
+    }
+
+    @Override
+    public ApplicationUser getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+
     }
 }

@@ -1,10 +1,13 @@
 package brainstation.booksapi.model.Product;
 
 import brainstation.booksapi.model.Category.Category;
+import brainstation.booksapi.model.Category.CategoryDTO;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Product {
 
@@ -16,11 +19,11 @@ public class Product {
 
     private String image;
 
-    private List<Category> categories = new ArrayList<>();
+    private Set<Category> categories = new HashSet<>();
 
     public Product() {};
 
-    public Product(String name, Double price, String image, List<Category> categories) {
+    public Product(String name, Double price, String image, Set<Category> categories) {
         this.name = name;
         this.price = price;
         this.image = image;
@@ -32,6 +35,9 @@ public class Product {
         this.name = productDTO.getName();
         this.price = productDTO.getPrice();
         this.image = productDTO.getImage();
+        for (CategoryDTO categoryDTO : productDTO.getCategories()) {
+            this.categories.add(new Category(categoryDTO));
+        }
     }
 
     public long getId() {
@@ -66,11 +72,11 @@ public class Product {
         this.image = image;
     }
 
-    public List<Category> getCategories() {
+    public Set<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
 }
