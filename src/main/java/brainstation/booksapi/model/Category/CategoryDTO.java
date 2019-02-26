@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Entity(name = "CategoryDTO")
 @Table(name = "category")
 public class CategoryDTO {
@@ -22,7 +23,9 @@ public class CategoryDTO {
     public CategoryDTO() { }
 
     public CategoryDTO(Category category){
+        this.id = category.getId();
         this.name = category.getName();
+
     }
 
     public CategoryDTO(String name) {

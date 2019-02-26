@@ -2,11 +2,10 @@ package brainstation.booksapi.model.Product;
 
 import brainstation.booksapi.model.Category.Category;
 import brainstation.booksapi.model.Category.CategoryDTO;
+import brainstation.booksapi.model.Review.Review;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Product {
@@ -21,13 +20,16 @@ public class Product {
 
     private Set<Category> categories = new HashSet<>();
 
+    private Set<Review> reviews = new HashSet<>();
+
     public Product() {};
 
-    public Product(String name, Double price, String image, Set<Category> categories) {
+    public Product(String name, Double price, String image, Set<Category> categories, Set<Review> reviews) {
         this.name = name;
         this.price = price;
         this.image = image;
         this.categories = categories;
+        this.reviews = reviews;
     }
 
     public Product(@NotNull ProductDTO productDTO){
@@ -78,5 +80,13 @@ public class Product {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 }

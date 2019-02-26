@@ -20,6 +20,7 @@ public class Category {
     public Category(){}
 
     public Category(CategoryDTO dto){
+        this.id = dto.getId();
         this.name = dto.getName();
     }
 

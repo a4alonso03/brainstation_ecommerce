@@ -21,7 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
-import static brainstation.booksapi.security.SecurityConstants.SIGN_UP_URL;
+import static brainstation.booksapi.security.SecurityConstants.*;
 
 @EnableWebSecurity
 public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
@@ -42,6 +42,10 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     //Permit all request to sign-up url
                     .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                    //Allow all GETs to products controller
+                    .antMatchers(HttpMethod.GET, PRODUCTS_URL).permitAll()
+                    //Allow all GETs to Reviews controller
+                    .antMatchers(HttpMethod.GET, REVIEWS_URL).permitAll()
                     //Any other request should be authenticated
                     .anyRequest().authenticated()
                 .and()

@@ -1,6 +1,9 @@
 package brainstation.booksapi.model.Product;
 
+import brainstation.booksapi.model.Category.Category;
 import brainstation.booksapi.model.Category.CategoryDTO;
+import brainstation.booksapi.model.Review.Review;
+import brainstation.booksapi.model.Review.ReviewDTO;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,11 +23,22 @@ public class ProductDTO {
 
     private String image;
 
+    /**
+     * el name es de la tabla intermedia
+     * el join column es con el name de la columna (lo importante fué el parámetro name)
+     */
     @ManyToMany
     @JoinTable(name = "product_category",
             joinColumns = {@JoinColumn(name = "product_id")},
             inverseJoinColumns = {@JoinColumn (name = "category_id")})
     private Set<CategoryDTO> categories = new HashSet<>();
+
+    /**
+     * El mapped by es al atributo de clase del otro lado
+     */
+    @OneToMany(orphanRemoval = true,
+            mappedBy = "productDTO")
+    private Set<ReviewDTO> reviews = new HashSet<>();
 
     public ProductDTO (){}
 
@@ -32,6 +46,13 @@ public class ProductDTO {
         this.name = product.getName();
         this.price = product.getPrice();
         this.image = product.getImage();
+        for (Category category : product.getCategories()) {
+            this.categories.add(new CategoryDTO(category));
+        }
+        for (Review review : product.getReviews()) {
+            this.reviews.add(new ReviewDTO(review));
+        }
+
     }
 
     public ProductDTO(String name, Double price, String image) {
@@ -78,5 +99,13 @@ public class ProductDTO {
 
     public void setCategories(Set<CategoryDTO> categories) {
         this.categories = categories;
+    }
+
+    public Set<ReviewDTO> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<ReviewDTO> reviews) {
+        this.reviews = reviews;
     }
 }
