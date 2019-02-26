@@ -4,6 +4,7 @@ import brainstation.booksapi.model.Category.Category;
 import brainstation.booksapi.model.Category.CategoryDTO;
 import brainstation.booksapi.model.Review.Review;
 import brainstation.booksapi.model.Review.ReviewDTO;
+import brainstation.booksapi.model.UserAddress.UserAddressDTO;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -36,9 +37,11 @@ public class ProductDTO {
     /**
      * El mapped by es al atributo de clase del otro lado
      */
-    @OneToMany(orphanRemoval = true,
-            mappedBy = "productDTO")
+    @OneToMany(orphanRemoval = true, mappedBy = "productDTO")
     private Set<ReviewDTO> reviews = new HashSet<>();
+
+    @OneToMany(orphanRemoval = true, mappedBy = "user")
+    private Set<UserAddressDTO> userAddressList = new HashSet<>();
 
     public ProductDTO (){}
 
@@ -107,5 +110,14 @@ public class ProductDTO {
 
     public void setReviews(Set<ReviewDTO> reviews) {
         this.reviews = reviews;
+    }
+
+
+    public Set<UserAddressDTO> getUserAddressList() {
+        return userAddressList;
+    }
+
+    public void setUserAddressList(Set<UserAddressDTO> userAddressList) {
+        this.userAddressList = userAddressList;
     }
 }
