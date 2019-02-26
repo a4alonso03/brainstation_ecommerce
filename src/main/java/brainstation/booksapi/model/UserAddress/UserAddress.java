@@ -1,5 +1,6 @@
 package brainstation.booksapi.model.UserAddress;
 
+import brainstation.booksapi.exceptions.CustomRestExceptionHandler;
 import brainstation.booksapi.model.ApplicationUser;
 
 import javax.validation.constraints.NotNull;
@@ -8,20 +9,27 @@ public class UserAddress {
 
     private Long id;
 
+
     private ApplicationUser user;
 
+    @NotNull(groups = {CustomRestExceptionHandler.class}, message = "A first name is required when creating an user address")
     private String firstName;
 
+    @NotNull(groups = {CustomRestExceptionHandler.class}, message = "A last name is required when creating an user address")
     private String lastName;
 
+    @NotNull(groups = {CustomRestExceptionHandler.class}, message = "An address first line is required when creating an user address")
     private String address;
 
     private String secondAddress;
 
+    @NotNull(groups = {CustomRestExceptionHandler.class}, message = "A city/town is required when creating an user address")
     private String cityTown;
 
+    @NotNull(groups = {CustomRestExceptionHandler.class}, message = "A phone is required when creating an user address")
     private String phone;
 
+    @NotNull(groups = {CustomRestExceptionHandler.class}, message = "A ps code is required when creating an user address")
     private String postalCode;
 
     public UserAddress() {}

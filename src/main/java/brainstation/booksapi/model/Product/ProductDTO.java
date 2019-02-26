@@ -31,7 +31,7 @@ public class ProductDTO {
     @ManyToMany
     @JoinTable(name = "product_category",
             joinColumns = {@JoinColumn(name = "product_id")},
-            inverseJoinColumns = {@JoinColumn (name = "category_id")})
+            inverseJoinColumns = {@JoinColumn(name = "category_id")})
     private Set<CategoryDTO> categories = new HashSet<>();
 
     /**
@@ -40,12 +40,11 @@ public class ProductDTO {
     @OneToMany(orphanRemoval = true, mappedBy = "productDTO")
     private Set<ReviewDTO> reviews = new HashSet<>();
 
-    @OneToMany(orphanRemoval = true, mappedBy = "user")
-    private Set<UserAddressDTO> userAddressList = new HashSet<>();
 
-    public ProductDTO (){}
+    public ProductDTO() {
+    }
 
-    public ProductDTO(Product product){
+    public ProductDTO(Product product) {
         this.name = product.getName();
         this.price = product.getPrice();
         this.image = product.getImage();
@@ -112,12 +111,4 @@ public class ProductDTO {
         this.reviews = reviews;
     }
 
-
-    public Set<UserAddressDTO> getUserAddressList() {
-        return userAddressList;
-    }
-
-    public void setUserAddressList(Set<UserAddressDTO> userAddressList) {
-        this.userAddressList = userAddressList;
-    }
 }

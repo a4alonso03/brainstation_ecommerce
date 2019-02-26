@@ -1,10 +1,13 @@
 package brainstation.booksapi.model;
 
 import brainstation.booksapi.exceptions.CustomRestExceptionHandler;
+import brainstation.booksapi.model.UserAddress.UserAddressDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity(name = "ApplicationUser")
 @Table(name = "application_user")
@@ -24,6 +27,8 @@ public class ApplicationUser {
     @Column(name = "last_name")
     private String lastName;
 
+    @OneToMany(orphanRemoval = true, mappedBy = "user")
+    private Set<UserAddressDTO> userAddressList = new HashSet<>();
 
 
     public long getId() {
@@ -79,5 +84,13 @@ public class ApplicationUser {
     @Override
     public int hashCode() {
         return Objects.hash(id, username, password);
+    }
+
+    public Set<UserAddressDTO> getUserAddressList() {
+        return userAddressList;
+    }
+
+    public void setUserAddressList(Set<UserAddressDTO> userAddressList) {
+        this.userAddressList = userAddressList;
     }
 }

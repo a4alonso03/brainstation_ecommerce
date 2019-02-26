@@ -44,4 +44,14 @@ public class ApplicationUserServiceImpl implements ApplicationUserService{
         return userRepository.findByUsername(username);
 
     }
+
+    @Override
+    public ApplicationUser getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public ApplicationUser saveUser(ApplicationUser user) {
+        return userRepository.save(user);
+    }
 }

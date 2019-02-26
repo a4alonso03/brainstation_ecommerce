@@ -10,4 +10,8 @@ public interface ApplicationUserService extends UserDetailsService {
 
     ApplicationUser getUserByUsername(String username);
 
+    ApplicationUser getUserById(Long id);
+
+    ApplicationUser saveUser(ApplicationUser user);
+
 }
