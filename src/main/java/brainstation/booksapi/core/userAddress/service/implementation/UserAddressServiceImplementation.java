@@ -56,6 +56,6 @@ public class UserAddressServiceImplementation implements UserAddressService {
 
     @Override
     public void deleteAddressById(Long addressId) {
-        this.userAddressRepository.findById(addressId);
+        this.userAddressRepository.deleteById(addressId);
     }
 }
