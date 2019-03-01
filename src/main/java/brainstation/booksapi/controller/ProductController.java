@@ -6,6 +6,8 @@ import brainstation.booksapi.exceptions.RestExceptionInterceptor;
 import brainstation.booksapi.model.Product.Product;
 import brainstation.booksapi.util.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -35,13 +37,12 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<CustomResponse> getAllProducts(){
-        List<Product> productListToReturn = this.productService.getAllProducts();
-        if (productListToReturn == null){
+    public ResponseEntity<CustomResponse> getAllProducts(Pageable pageable){
+        Page<Product> productPageToReturn = this.productService.getAllProducts(pageable);
+        if (productPageToReturn == null){
             return new ResponseEntity<>(new CustomResponse("Couldn't return all products", null), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new CustomResponse("ok", productListToReturn), HttpStatus.OK);
-
+        return new ResponseEntity<>(new CustomResponse("ok", productPageToReturn), HttpStatus.OK);
     }
 
 
@@ -52,6 +53,15 @@ public class ProductController {
             return new ResponseEntity<>(new CustomResponse("Couldn't find product with id: " + id, null), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(new CustomResponse("ok", retrievedProduct), HttpStatus.OK);
+    }
+
+    @GetMapping("/filter/{filter}")
+    public ResponseEntity<CustomResponse> getAllProductsOfFilter(@PathVariable("filter") String filter){
+        List<Product> retrievedProducts = this.productService.getAppProductsWithFilter(filter);
+        if(retrievedProducts == null){
+            return new ResponseEntity<>(new CustomResponse("Couldn't get all products with filter", null), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new CustomResponse("ok", retrievedProducts), HttpStatus.OK);
     }
 
 }

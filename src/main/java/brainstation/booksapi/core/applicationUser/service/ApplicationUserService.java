@@ -14,4 +14,6 @@ public interface ApplicationUserService extends UserDetailsService {
 
     ApplicationUser saveUser(ApplicationUser user);
 
+    ApplicationUser updateUser(ApplicationUser newUser);
+
 }

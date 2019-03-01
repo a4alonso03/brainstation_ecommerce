@@ -2,6 +2,7 @@ package brainstation.booksapi.model;
 
 import brainstation.booksapi.exceptions.CustomRestExceptionHandler;
 import brainstation.booksapi.model.UserAddress.UserAddressDTO;
+import brainstation.booksapi.model.UserCreditCard.UserCreditCardDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,8 +28,11 @@ public class ApplicationUser {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(orphanRemoval = true, mappedBy = "user")
+    @OneToMany(orphanRemoval = true, mappedBy = "user", fetch = FetchType.LAZY)
     private Set<UserAddressDTO> userAddressList = new HashSet<>();
+
+    @OneToMany(orphanRemoval = true, mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<UserCreditCardDTO> userCreditCardDTOList = new HashSet<>();
 
 
     public long getId() {
@@ -92,5 +96,13 @@ public class ApplicationUser {
 
     public void setUserAddressList(Set<UserAddressDTO> userAddressList) {
         this.userAddressList = userAddressList;
+    }
+
+    public Set<UserCreditCardDTO> getUserCreditCardDTOList() {
+        return userCreditCardDTOList;
+    }
+
+    public void setUserCreditCardDTOList(Set<UserCreditCardDTO> userCreditCardDTOList) {
+        this.userCreditCardDTOList = userCreditCardDTOList;
     }
 }

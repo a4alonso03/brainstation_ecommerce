@@ -42,9 +42,12 @@ public class UserAddressController {
            return new ResponseEntity<>(new CustomResponse("Couldn't create the user address by an user id", null), HttpStatus.BAD_REQUEST);
        }
         return new ResponseEntity<>(new CustomResponse("ok", createdUserAddress), HttpStatus.OK);
-
     }
 
-
+    @DeleteMapping("/{addressId}")
+    public ResponseEntity<CustomResponse> deleteAddressById (@PathVariable("addressId")Long addressId){
+        this.userAddressService.deleteAddressById(addressId);
+        return new ResponseEntity<>(new CustomResponse("ok", null), HttpStatus.OK);
+    }
 }
 

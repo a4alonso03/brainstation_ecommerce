@@ -2,6 +2,7 @@ package brainstation.booksapi.controller;
 
 import brainstation.booksapi.core.applicationUser.service.ApplicationUserService;
 import brainstation.booksapi.model.ApplicationUser;
+import brainstation.booksapi.model.UserAddress.UserAddressDTO;
 import brainstation.booksapi.util.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,14 @@ public class UserController {
             return new ResponseEntity<>(new CustomResponse("User not found", null), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(new CustomResponse("ok", user), HttpStatus.OK);
+    }
 
+    @PutMapping("/")
+    public ResponseEntity<CustomResponse> updateUser(@RequestBody ApplicationUser user){
+        ApplicationUser updatedUser = userService.updateUser(user);
+        if(updatedUser == null){
+            return new ResponseEntity<>(new CustomResponse("Couldn't update user", null), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new CustomResponse("ok", updatedUser), HttpStatus.OK);
     }
 }

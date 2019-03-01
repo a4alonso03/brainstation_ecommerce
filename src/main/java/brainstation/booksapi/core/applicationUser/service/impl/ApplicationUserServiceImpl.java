@@ -3,6 +3,8 @@ package brainstation.booksapi.core.applicationUser.service.impl;
 import brainstation.booksapi.core.applicationUser.repository.ApplicationUserRepository;
 import brainstation.booksapi.core.applicationUser.service.ApplicationUserService;
 import brainstation.booksapi.model.ApplicationUser;
+import brainstation.booksapi.model.UserAddress.UserAddressDTO;
+import brainstation.booksapi.model.UserCreditCard.UserCreditCardDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +18,7 @@ import static java.util.Collections.emptyList;
 
 
 @Service
-public class ApplicationUserServiceImpl implements ApplicationUserService{
+public class ApplicationUserServiceImpl implements ApplicationUserService {
 
     private ApplicationUserRepository userRepository;
 
@@ -33,7 +35,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ApplicationUser user = userRepository.findByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException(username);
         }
         return new User(user.getUsername(), user.getPassword(), emptyList());
@@ -41,8 +43,18 @@ public class ApplicationUserServiceImpl implements ApplicationUserService{
 
     @Override
     public ApplicationUser getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-
+        ApplicationUser returnedUser = this.userRepository.findByUsername(username);
+        if (returnedUser != null) {
+            returnedUser.setPassword(null);
+            for (UserAddressDTO userAddressDTO : returnedUser.getUserAddressList()) {
+                userAddressDTO.setUser(null);
+            }
+            for (UserCreditCardDTO userCreditCardDTO : returnedUser.getUserCreditCardDTOList()) {
+                userCreditCardDTO.setUser(null);
+            }
+            return returnedUser;
+        }
+        return null;
     }
 
     @Override
@@ -53,5 +65,25 @@ public class ApplicationUserServiceImpl implements ApplicationUserService{
     @Override
     public ApplicationUser saveUser(ApplicationUser user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    public ApplicationUser updateUser(ApplicationUser user) {
+        ApplicationUser retrievedUser = userRepository.findById(user.getId()).orElse(null);
+        if(retrievedUser == null){
+            return null;
+        }
+
+        retrievedUser.setPassword(null);
+        for (UserAddressDTO userAddressDTO : retrievedUser.getUserAddressList()) {
+            userAddressDTO.setUser(null);
+        }
+        for (UserCreditCardDTO userCreditCardDTO : retrievedUser.getUserCreditCardDTOList()) {
+            userCreditCardDTO.setUser(null);
+        }
+
+        retrievedUser.setName(user.getName());
+        retrievedUser.setLastName(user.getLastName());
+        return userRepository.save(retrievedUser);
     }
 }

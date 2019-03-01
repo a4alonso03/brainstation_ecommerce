@@ -66,9 +66,6 @@ public class UserAddress {
         this.id = id;
     }
 
-    public ApplicationUser getUser() {
-        return user;
-    }
 
     public void setUser(ApplicationUser user) {
         this.user = user;

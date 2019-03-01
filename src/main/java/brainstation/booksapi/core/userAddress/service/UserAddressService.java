@@ -9,4 +9,6 @@ public interface UserAddressService {
     List<UserAddress> getAllAddressesFromUserById(Long id);
 
     UserAddress createUserAddressForUserById(Long userId, UserAddress userAddress);
+
+    void deleteAddressById(Long addressId);
 }

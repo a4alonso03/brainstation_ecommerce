@@ -8,14 +8,16 @@ import brainstation.booksapi.model.UserAddress.UserAddress;
 import brainstation.booksapi.model.UserAddress.UserAddressDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserAddressServiceImplementation implements UserAddressService {
-
+    //Transactional added, if something breaks take it out
     private UserAddressRepository userAddressRepository;
     private ApplicationUserService applicationUserService;
 
@@ -33,25 +35,15 @@ public class UserAddressServiceImplementation implements UserAddressService {
 
     @Override
     public UserAddress createUserAddressForUserById(Long userId, UserAddress userAddress) {
-        //Get the user by id, access its list of addresses and insert the userAddress that i received
         ApplicationUser user = this.applicationUserService.getUserById(userId);
         if(user == null) {
             return null;
         }
+        UserAddressDTO userAddressDTO = new UserAddressDTO(userAddress);
+        userAddressDTO.setUser(user);
+        UserAddressDTO savedUserAddressDTO = this.userAddressRepository.save(userAddressDTO);
 
-        //this.userAddressRepository.save()
-        //Save the user address and then save the user
-
-        user.getUserAddressList().add(new UserAddressDTO(userAddress));
-
-
-        ApplicationUser storedUser = this.applicationUserService.saveUser(user);
-        for (UserAddressDTO userAddressDTO : storedUser.getUserAddressList()) {
-            if(userAddressDTO.getAddress().equals(userAddress.getAddress())){
-                return new UserAddress(userAddressDTO);
-            }
-        }
-        return null;
+        return new UserAddress(savedUserAddressDTO);
     }
 
     private List<UserAddress> getUserAddressListFromUserAddressDTOList(@NotNull List<UserAddressDTO> userAddressDTOList){
@@ -60,5 +52,10 @@ public class UserAddressServiceImplementation implements UserAddressService {
             userAddressList.add(new UserAddress(userAddressDTO));
         }
         return userAddressList;
+    }
+
+    @Override
+    public void deleteAddressById(Long addressId) {
+        this.userAddressRepository.findById(addressId);
     }
 }
